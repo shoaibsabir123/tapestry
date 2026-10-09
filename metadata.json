@@ -1,0 +1,6 @@
+{
+  "name": "Tapestry — The Living Tapestry",
+  "description": "A sanctuary for preserving life moments, quiet acts of kindness (نیکی اور احساس), and the deeds that truly matter.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

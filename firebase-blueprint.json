@@ -1,0 +1,110 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Corporate user profile with role-based access control and organizational metadata",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique user ID" },
+        "email": { "type": "string", "format": "email", "description": "User email address" },
+        "displayName": { "type": "string", "description": "Full name of the user", "maxLength": 100 },
+        "photoUrl": { "type": "string", "description": "Avatar photo URL" },
+        "role": { "type": "string", "enum": ["admin", "executive", "chronicler", "auditor"], "description": "Corporate RBAC role" },
+        "department": { "type": "string", "description": "Department or business unit", "maxLength": 80 },
+        "organization": { "type": "string", "description": "Organization name", "maxLength": 100 },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last update timestamp" }
+      },
+      "required": ["id", "email", "displayName", "role"]
+    },
+    "Memory": {
+      "title": "Memory",
+      "description": "Chronicle or memory record with rich multi-sensory attributes and word limit tracking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Document ID" },
+        "userId": { "type": "string", "description": "Author UID" },
+        "title": { "type": "string", "description": "Title of the chronicle", "maxLength": 200 },
+        "story": { "type": "string", "description": "Full narrative story up to 2,000 words", "maxLength": 25000 },
+        "category": { "type": "string", "description": "Chronicle category" },
+        "date": { "type": "string", "description": "Occurrence date (YYYY-MM-DD)" },
+        "location": { "type": "string", "description": "Geographical location", "maxLength": 150 },
+        "coverImageUrl": { "type": "string", "description": "Cover atmosphere image URL" },
+        "artifactUrls": { "type": "array", "description": "Additional visual or media artifact URLs" },
+        "audioUrl": { "type": "string", "description": "Audio aura memo URL" },
+        "audioDuration": { "type": "number", "description": "Audio duration in seconds" },
+        "emotionNervousElated": { "type": "number", "description": "Nervous to Elated score 0-100" },
+        "emotionLonelyConnected": { "type": "number", "description": "Lonely to Connected score 0-100" },
+        "emotionUncertainCertain": { "type": "number", "description": "Uncertain to Certain score 0-100" },
+        "emotionHeavyLight": { "type": "number", "description": "Heavy to Light score 0-100" },
+        "emotionQuietElectric": { "type": "number", "description": "Quiet to Electric score 0-100" },
+        "people": { "type": "array", "description": "People or companions involved" },
+        "tags": { "type": "array", "description": "Thematic tags" },
+        "chapterIds": { "type": "array", "description": "Associated chapter IDs" },
+        "reflectionPrompt": { "type": "string", "description": "Inquiry prompt" },
+        "reflectionAnswer": { "type": "string", "description": "Reflection takeaway" },
+        "favorite": { "type": "boolean", "description": "Marked as favorite or sacred anchor" },
+        "visibility": { "type": "string", "enum": ["private", "department", "public"], "description": "Access visibility" },
+        "department": { "type": "string", "description": "Associated corporate department" },
+        "verified": { "type": "boolean", "description": "Corporate audit verification badge" },
+        "wordCount": { "type": "number", "description": "Total word count in story" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Record creation time" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Record last modification time" }
+      },
+      "required": ["id", "userId", "title", "story", "category", "date"]
+    },
+    "Chapter": {
+      "title": "Chapter",
+      "description": "Milestone era or corporate life chapter",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Chapter ID" },
+        "userId": { "type": "string", "description": "Creator user ID" },
+        "title": { "type": "string", "description": "Chapter title", "maxLength": 150 },
+        "description": { "type": "string", "description": "Chapter narrative overview" },
+        "coverImageUrl": { "type": "string", "description": "Chapter banner image" },
+        "startDate": { "type": "string", "description": "Start date" },
+        "endDate": { "type": "string", "description": "End date" },
+        "themeColor": { "type": "string", "description": "Theme color hex" },
+        "memoryIds": { "type": "array", "description": "Included memory IDs" },
+        "department": { "type": "string", "description": "Corporate department" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["id", "userId", "title"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Enterprise audit log for corporate compliance tracking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Log record ID" },
+        "userId": { "type": "string", "description": "Acting user ID" },
+        "userEmail": { "type": "string", "description": "Acting user email" },
+        "action": { "type": "string", "description": "Action performed (CREATE, UPDATE, DELETE, EXPORT, VERIFY)" },
+        "resourceType": { "type": "string", "description": "Target resource type (MEMORY, CHAPTER, USER, SYSTEM)" },
+        "resourceId": { "type": "string", "description": "Target resource ID" },
+        "details": { "type": "string", "description": "Audit details and context" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "Timestamp of action" }
+      },
+      "required": ["id", "userId", "action", "resourceType", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Corporate user profiles and roles"
+    },
+    "/memories/{memoryId}": {
+      "schema": { "$ref": "#/entities/Memory" },
+      "description": "Chronicles and life moments collection"
+    },
+    "/chapters/{chapterId}": {
+      "schema": { "$ref": "#/entities/Chapter" },
+      "description": "Life eras and organizational chapters"
+    },
+    "/auditLogs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Immutable enterprise audit records"
+    }
+  }
+}
